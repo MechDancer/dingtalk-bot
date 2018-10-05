@@ -15,7 +15,6 @@ class TestMessage {
 		bot = DingtalkBot("")
 		bot.onResponse = { _, r ->
 			println(r.body()?.string())
-			System.exit(0)
 		}
 	}
 
