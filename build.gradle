@@ -28,6 +28,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0'
 
     testCompile 'junit:junit:4.12'
 }
@@ -37,4 +38,9 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

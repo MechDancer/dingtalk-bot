@@ -12,11 +12,10 @@ class TestMessage {
 
 	@Before
 	fun init() {
-		bot = DingtalkBot("")
-		bot.onResponse = { _, r ->
-			println(r.body()?.string())
-		}
+		bot = DingtalkBot("https://oapi.dingtalk.com/robot/send?access_token=fa3502e0d69d7c989e37f712cdc95d371d1f94e3cea9965c7529e1749863745d")
+
 	}
+
 
 	@Test
 	fun testMarkdown() {
@@ -60,7 +59,7 @@ class TestMessage {
 			""".trimIndent()
 		}
 
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
 
 	@Test
@@ -109,7 +108,7 @@ class TestMessage {
 		}
 
 
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
 
 	@Test
@@ -126,30 +125,30 @@ class TestMessage {
 				pictureUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 			}
 		}
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
 
 	@Test
 	fun testMultiActionCard() {
 		val message = multiActionCardMessage {
 			title = "我叫你一声你敢答应吗"
-			text = "# 我叫你一声你敢答应吗"
+			text = "**我叫你一声你敢答应吗**"
 			avatarOption = AvatarOption.HIDE
 
 			repeat(3) {
 				addButton {
-					title = "我叫你一声你敢答应吗"
-					text = "我叫你一声你敢答应吗"
+					title = "我叫你一声你敢答应吗$it"
+					actionURL = "https://github.com/MechDancer"
 				}
 			}
 		}
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
 
 	@Test
 	fun testText() {
 		val message = textMessage("我叫你一声你敢答应吗")
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
 
 	@Test
@@ -160,6 +159,15 @@ class TestMessage {
 			picUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 			messageUrl = "http://mechdancer.org"
 		}
-		bot.postMessage(message)
+		bot.postMessageBlocking(message)
 	}
+
+//	@Test
+//	fun testCoroutine() {
+//		val message = textMessage("我叫你一声你敢答应吗")
+//		runBlocking {
+//			HttpClient.postMessage("https://oapi.dingtalk.com/robot/send?access_token=fa3502e0d69d7c989e37f712cdc95d371d1f94e3cea9965c7529e1749863745d",
+//					message).second.body()?.string().let(::println)
+//		}
+//	}
 }

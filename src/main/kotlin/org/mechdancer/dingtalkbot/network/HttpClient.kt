@@ -4,6 +4,7 @@ import kotlinx.serialization.json.JSON
 import okhttp3.*
 import org.mechdancer.dingtalkbot.poko.Message
 import java.io.IOException
+import kotlin.coroutines.experimental.suspendCoroutine
 
 val okHttpClient: OkHttpClient = OkHttpClient.Builder()
 		.retryOnConnectionFailure(true)
@@ -21,6 +22,14 @@ object HttpClient {
 				.let(okHttpClient::newCall)
 				.enqueue(callback)
 	}
+
+	suspend inline fun <reified T : Message> postMessage(url: String, body: T) =
+			suspendCoroutine<Pair<Call, Response>> {
+				postMessage(url, body,
+						callback({ _, ioException -> it.resumeWithException(ioException) }
+						) { c, r -> it.resume(c to r) })
+			}
+
 }
 
 fun callback(onFailure: (Call, IOException) -> Unit = { _, e -> e.printStackTrace() }
