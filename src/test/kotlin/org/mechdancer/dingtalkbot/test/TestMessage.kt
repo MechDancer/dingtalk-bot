@@ -156,18 +156,11 @@ class TestMessage {
 		val message = linkMessage {
 			title = "我叫你一声你敢答应吗"
 			text = "我叫你一声你敢答应吗"
-			picUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
+			pictureUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 			messageUrl = "http://mechdancer.org"
 		}
 		bot.postMessageBlocking(message)
 	}
 
-//	@Test
-//	fun testCoroutine() {
-//		val message = textMessage("我叫你一声你敢答应吗")
-//		runBlocking {
-//			HttpClient.postMessage("https://oapi.dingtalk.com/robot/send?access_token=fa3502e0d69d7c989e37f712cdc95d371d1f94e3cea9965c7529e1749863745d",
-//					message).second.body()?.string().let(::println)
-//		}
-//	}
+
 }
