@@ -1,7 +1,7 @@
 # DingtalkBot API
 [![Build Status](https://travis-ci.com/MechDancer/dingtalk-bot.svg?branch=master)](https://travis-ci.com/MechDancer/dingtalk-bot)
 
-Library support for  DSL to build and sending *DingtalkBot* messages.
+Library support for  DSL to build and sending *DingtalkBot* messages, driven by [Vert.x](https://vertx.io).
 
 ## Usage
 You need a *web hook* to create a `DingtalkBot`:
@@ -91,7 +91,7 @@ Here is the way to build a `LinkMessage`:
 val message = linkMessage {
 	title = "Welcome to MechDancer"
 	text = "MechDancer is a robot competition team."
-	picUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
+	pictureUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 	messageUrl = "http://mechdancer.org"
 }
 ```

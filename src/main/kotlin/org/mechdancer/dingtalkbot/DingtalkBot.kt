@@ -1,27 +1,28 @@
 package org.mechdancer.dingtalkbot
 
-import kotlinx.coroutines.experimental.runBlocking
-import kotlinx.io.IOException
-import okhttp3.Call
-import okhttp3.Response
+import io.vertx.core.buffer.Buffer
+import io.vertx.ext.web.client.HttpResponse
 import org.mechdancer.dingtalkbot.network.HttpClient
-import org.mechdancer.dingtalkbot.network.callback
 import org.mechdancer.dingtalkbot.poko.Message
 
 class DingtalkBot(val webHook: String) {
 
-	var onFailure = { _: Call, _: IOException -> }
-	var onResponse = { _: Call, _: Response -> }
+	var onFailed = { _: Throwable -> }
+	var onSucceed = { _: HttpResponse<Buffer> -> }
 
 	inline fun <reified T : Message> postMessageAsync(message: T) {
-		HttpClient.postMessage(webHook, message, callback(onFailure, onResponse))
+		HttpClient.postMessageAsync(webHook, message, onFailed, onSucceed)
 	}
 
 	suspend inline fun <reified T : Message> postMessage(message: T) =
-			HttpClient.postMessage(webHook, message).also { onResponse(it.first, it.second) }
+			try {
+				HttpClient.postMessage(webHook, message).also { onSucceed(it) }
+			} catch (e: Throwable) {
+				onFailed(e)
+			}
 
 	inline fun <reified T : Message> postMessageBlocking(message: T) =
-			runBlocking { postMessage(message) }
+			HttpClient.postMessageBlocking(webHook, message)
 }
 
 

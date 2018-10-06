@@ -13,50 +13,21 @@ class TestMessage {
 	@Before
 	fun init() {
 		bot = DingtalkBot("https://oapi.dingtalk.com/robot/send?access_token=fa3502e0d69d7c989e37f712cdc95d371d1f94e3cea9965c7529e1749863745d")
-
+		bot.onSucceed = {
+			println(it.bodyAsString())
+		}
 	}
 
 
 	@Test
 	fun testMarkdown() {
 		val message = markdownMessage {
-			title = "我叫你一声你敢答应吗"
-			text = """
-				![我叫你一声你敢答应吗](https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true)
-
-
-				# 我叫你一声你敢答应吗
-
-
-				## 我叫你一声你敢答应吗
-
-
-				### 我叫你一声你敢答应吗
-
-
-				#### 我叫你一声你敢答应吗
-
-
-				##### 我叫你一声你敢答应吗
-
-
-				> 我叫你一声你敢答应吗
-
-
-				**我叫你一声你敢答应吗**
-
-
-				*我叫你一声你敢答应吗*
-
-
-				- 我叫你一声你敢答应吗
-				- 我叫你一声你敢答应吗
-
-
-				1. 我叫你一声你敢答应吗
-				2. 我叫你一声你敢答应吗
-
-			""".trimIndent()
+			title = "Hello, world"
+			text = "# Hello, World"
+			at = at {
+				atMobiles = listOf("+86-13800138000", "+86-12345678987")
+				atAll = true
+			}
 		}
 
 		bot.postMessageBlocking(message)
@@ -147,18 +118,25 @@ class TestMessage {
 
 	@Test
 	fun testText() {
-		val message = textMessage("我叫你一声你敢答应吗")
+		val at = at {
+			atMobiles = listOf("+86-13800138000", "+86-12345678987")
+			atAll = true
+		}
+
+		val message = textMessage("Hello, world.", at)
+
 		bot.postMessageBlocking(message)
 	}
 
 	@Test
 	fun testLink() {
 		val message = linkMessage {
-			title = "我叫你一声你敢答应吗"
-			text = "我叫你一声你敢答应吗"
+			title = "Welcome to MechDancer"
+			text = "MechDancer is a robot competition team."
 			pictureUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 			messageUrl = "http://mechdancer.org"
 		}
+
 		bot.postMessageBlocking(message)
 	}
 
