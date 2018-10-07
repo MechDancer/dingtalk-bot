@@ -95,6 +95,16 @@ class TestMessage {
 				messageUrl = "http://mechdancer.org/2018/09/14/programming/navigation-interface/"
 				pictureUrl = "https://github.com/MechDancer/mechdancer.github.io/blob/master/css/images/mechdancer2.png?raw=true"
 			}
+			addEntry {
+				title="状态机——(1)"
+				messageUrl="http://mechdancer.org/2018/09/12/programming/statemachine-2/"
+				pictureUrl="http://mechdancer.org/images/statemachine-2-class_diagram.png"
+			}
+			addEntry {
+				title="FTC 2019赛季任务分析及建议 高挂部分"
+				messageUrl="http://mechdancer.org/2018/09/09/mechanical/season-analysis-2019-high-hanging/"
+				pictureUrl="http://mechdancer.org/images/season-logo.jpg"
+			}
 		}
 		bot.postMessageBlocking(message)
 	}

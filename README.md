@@ -34,6 +34,8 @@ Each of them has different data parameters and patterns in serialization.
 
 `TextMessage` is the simplest type of messages. It only contains a plain text, being sent directly.
 
+![textmessage](./screenshot/textmessage.png)
+
 Here is the way to build a `TextMessage`:
 
 ```kotlin
@@ -57,6 +59,8 @@ val message = textMessage("Hello, world.", at)
 ### Markdown Message
 
 `MarkdownMessag` is a kind of advanced `TextMessage`. It has extra parameter —— `title` and its `text` supports markdown syntax.
+
+![markdownmessage](./screenshot/markdownmessage.png)
 
 Here is the way to build a `MarkdownMessage`:
 
@@ -83,7 +87,9 @@ Similarly,`At` is optional.
 
 ### Link Message
 
-`LinkMessage` is a kind of advanced `TextMessage` as well. It has `title`,`messageUrl`,`pictureUrl` further. Notice that the type of`text` is *plain*.
+`LinkMessage` is a kind of advanced `TextMessage` as well. It has `title`, `messageUrl`, `pictureUrl` further. Notice that the type of `text` is *plain*.
+
+![linkmessage](./screenshot/linkmessage.png)
 
 Here is the way to build a `LinkMessage`:
 
