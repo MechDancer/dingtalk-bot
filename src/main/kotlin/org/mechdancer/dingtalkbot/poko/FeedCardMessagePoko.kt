@@ -13,6 +13,6 @@ data class FeedCard(val links: List<Entry>)
 
 @Serializable
 data class FeedCardMessagePoko(val feedCard: FeedCard) : Message {
-	@SerialName("msgtype")
-	override val messageType: String = "feedCard"
+    @SerialName("msgtype")
+    override val messageType: String = "feedCard"
 }

@@ -1,14 +1,12 @@
 buildscript {
-    ext.serialization_version = '0.6.2'
-    ext.kotlin_version = '1.2.70'
-    ext.vertx_version = '3.5.4'
+    ext.kotlin_version = '1.3.50'
+    ext.vertx_version = '3.8.3'
     repositories {
         jcenter()
-        maven { url "https://kotlin.bintray.com/kotlinx" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 
@@ -20,30 +18,24 @@ version '1.0-SNAPSHOT'
 
 repositories {
     jcenter()
-    maven { url "https://kotlin.bintray.com/kotlinx" }
     mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.13.0"
 
-    compile "io.vertx:vertx-web:$vertx_version"
-    compile "io.vertx:vertx-web-client:$vertx_version"
-    compile ("io.vertx:vertx-lang-kotlin-coroutines:$vertx_version")
+    implementation "io.vertx:vertx-web:$vertx_version"
+    implementation "io.vertx:vertx-web-client:$vertx_version"
+    implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
 
     testCompile 'junit:junit:4.12'
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-kotlin {
-    experimental {
-        coroutines "enable"
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = ['-Xuse-experimental=kotlin.Experimental']
     }
 }

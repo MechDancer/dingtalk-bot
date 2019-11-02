@@ -4,22 +4,23 @@ import org.mechdancer.dingtalkbot.poko.Entry
 import org.mechdancer.dingtalkbot.poko.FeedCard
 import org.mechdancer.dingtalkbot.poko.FeedCardMessagePoko
 
-class EntryBuilder {
-	var title = ""
-	var messageUrl = ""
-	var pictureUrl = ""
-
-	fun build() = Entry(title, messageUrl, pictureUrl)
-}
 
 class FeedCardMessageBuilder internal constructor() {
-	private val entries = mutableListOf<Entry>()
+    private val entries = mutableListOf<Entry>()
 
-	fun addEntry(block: EntryBuilder.() -> Unit) =
-			EntryBuilder().apply(block).build().let(entries::add)
+    fun addEntry(block: EntryBuilder.() -> Unit) =
+        EntryBuilder().apply(block).build().let(entries::add)
 
-	internal fun build() = FeedCardMessagePoko(FeedCard(entries))
+    internal fun build() = FeedCardMessagePoko(FeedCard(entries))
+
+    class EntryBuilder {
+        var title = ""
+        var messageUrl = ""
+        var pictureUrl = ""
+
+        fun build() = Entry(title, messageUrl, pictureUrl)
+    }
 }
 
 fun feedCardMessage(block: FeedCardMessageBuilder.() -> Unit) =
-		FeedCardMessageBuilder().apply(block).build()
+    FeedCardMessageBuilder().apply(block).build()

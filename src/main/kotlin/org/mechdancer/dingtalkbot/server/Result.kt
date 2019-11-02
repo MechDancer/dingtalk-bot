@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DingtalkResult(
-		@SerialName("errmsg")
-		val message: String,
-		@SerialName("errcode")
-		val code: Int)
+    @SerialName("errmsg")
+    val message: String,
+    @SerialName("errcode")
+    val code: Int)
 
 @Serializable
 data class ServerResult(
-		val bot: String,
-		val result: DingtalkResult
+    val bot: String,
+    val result: DingtalkResult
 )
