@@ -12,9 +12,12 @@ class TestMessages {
 
     @Before
     fun init() {
-        bot = DingtalkBot("https://oapi.dingtalk.com/robot/send?access_token=fa3502e0d69d7c989e37f712cdc95d371d1f94e3cea9965c7529e1749863745d")
-        bot.onSucceed = {
-            println(it.bodyAsString())
+        bot = DingtalkBot(
+            "https://oapi.dingtalk.com/robot/send?access_token=a7194e859602861d782d8d01752db933a8cf8a27a1e01015fc07281a2003dc33",
+            "SEC1c3c0121100c4de271dc55718e02de0ec89ac8278db5b0a9282fd16e7ad95169"
+        )
+        bot.onSuccess = {
+            println(it)
         }
     }
 

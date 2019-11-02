@@ -4,10 +4,12 @@
 Library supports DSL to build and sends *DingtalkBot* messages, driven by [Vert.x](https://vertx.io) and [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization).
 
 ## Usage
-You need a *web hook* to create a `DingtalkBot`:
+You need a *web hook* and an optional *signature* (in robot settings) to create a `DingtalkBot`:
+
 ```kotlin
-val bot = DingtalkBot(WEB_HOOK)
+val bot = DingtalkBot(WEB_HOOK, SIGNATURE)
 ```
+
 There are three ways to send messages:
 * Async
 * Blocking

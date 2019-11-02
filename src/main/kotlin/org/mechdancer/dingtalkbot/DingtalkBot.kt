@@ -1,28 +1,53 @@
 package org.mechdancer.dingtalkbot
 
-import io.vertx.core.buffer.Buffer
-import io.vertx.ext.web.client.HttpResponse
 import org.mechdancer.dingtalkbot.network.HttpClient
 import org.mechdancer.dingtalkbot.poko.Message
+import org.mechdancer.dingtalkbot.server.DingtalkResult
+import java.net.URLEncoder
+import java.nio.charset.Charset
+import java.util.*
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
-class DingtalkBot(val webHook: String) {
+
+class DingtalkBot(val webHook: String, val secret: String? = null) {
 
     var onFailed = { _: Throwable -> }
-    var onSucceed = { _: HttpResponse<Buffer> -> }
+    var onSuccess = { _: DingtalkResult -> }
 
-    inline fun <reified T : Message> postMessageAsync(message: T) {
-        HttpClient.postMessageAsync(webHook, message, onFailed, onSucceed)
-    }
+    inline fun <reified T : Message> postMessageAsync(message: T) =
+        HttpClient.postMessageAsync(encrypt(), message, onFailed, onSuccess)
+
 
     suspend inline fun <reified T : Message> postMessage(message: T) =
-        try {
-            HttpClient.postMessage(webHook, message).also { onSucceed(it) }
-        } catch (e: Throwable) {
-            onFailed(e)
-        }
+        runCatching { HttpClient.postMessage(encrypt(), message) }
+            .onSuccess(onSuccess)
+            .onFailure(onFailed)
+            .getOrNull()
 
     inline fun <reified T : Message> postMessageBlocking(message: T) =
-        HttpClient.postMessageBlocking(webHook, message)
+        runCatching { HttpClient.postMessageBlocking(encrypt(), message) }
+            .onSuccess(onSuccess)
+            .onFailure(onFailed)
+            .getOrNull()
+
+    private fun sign(timestamp: Long): String {
+        require(secret != null)
+        val raw = "$timestamp\n$secret"
+        fun String.toUTF8Array() = toByteArray(Charset.forName("UTF-8"))
+        val mac: Mac = Mac.getInstance("HmacSHA256")
+        mac.init(SecretKeySpec(secret.toUTF8Array(), "HmacSHA256"))
+        val r = mac.doFinal(raw.toUTF8Array())
+        return URLEncoder.encode(String(Base64.getEncoder().encode(r)), "UTF-8")
+    }
+
+    @PublishedApi
+    internal fun encrypt(timestamp: Long? = null): String {
+        if (secret == null) return webHook
+        val t = timestamp ?: System.currentTimeMillis()
+        val s = sign(t)
+        return "$webHook&timestamp=$t&sign=$s"
+    }
 }
 
 

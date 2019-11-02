@@ -8,7 +8,8 @@ data class DingtalkResult(
     @SerialName("errmsg")
     val message: String,
     @SerialName("errcode")
-    val code: Int)
+    val code: Int
+)
 
 @Serializable
 data class ServerResult(
