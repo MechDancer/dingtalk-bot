@@ -1,7 +1,7 @@
 # DingtalkBot API
 [![Build Status](https://travis-ci.com/MechDancer/dingtalk-bot.svg?branch=master)](https://travis-ci.com/MechDancer/dingtalk-bot)
 
-Library support for  DSL to build and sending *DingtalkBot* messages, driven by [Vert.x](https://vertx.io).
+Library supports DSL to build and sends *DingtalkBot* messages, driven by [Vert.x](https://vertx.io) and [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization).
 
 ## Usage
 You need a *web hook* to create a `DingtalkBot`:
@@ -13,7 +13,7 @@ There are three ways to send messages:
 * Blocking
 * Suspend
 
-We use [kotlin coroutine](https://github.com/kotlin/kotlinx.coroutines) to implement them.
+Sending messages is implemented by [kotlin coroutines](https://github.com/kotlin/kotlinx.coroutines).
 
 ## Message Type
 
@@ -26,15 +26,13 @@ There are six types of messages:
 * ActionCard Message
 * FeedCard Message
 
-Each of them has different data parameters and patterns in serialization.
-
-### 
+Each of them has different data parameters and patterns in serialization. 
 
 ### Text Message
 
-`TextMessage` is the simplest type of messages. It only contains a plain text, being sent directly.
+`TextMessage` is the simplest type of messages, which only contains a part of plain text.
 
-![textmessage](./screenshot/textmessage.png)
+![textmessage](https://github.com/MechDancer/dingtalk-bot/blob/master/screenshot/textmessage.png)
 
 Here is the way to build a `TextMessage`:
 
@@ -47,20 +45,18 @@ val at = at {
 val message = textMessage("Hello, world.", at)
 ```
 
-`At` is optional, you can build an at by the above way.
+`At` is optional, and `atMobiles` includes people to be at. However, if `atAll` is `true`, *dingtalk* will ignore `atMobiles`.
 
 | Parameter | Optional | Default Value |
 | --------- | -------- | ------------- |
 | `text`    | No       | -             |
 | `at`      | Yes      | `null`        |
 
-### 
-
 ### Markdown Message
 
 `MarkdownMessag` is a kind of advanced `TextMessage`. It has extra parameter —— `title` and its `text` supports markdown syntax.
 
-![markdownmessage](./screenshot/markdownmessage.png)
+![markdownmessage](https://raw.githubusercontent.com/MechDancer/dingtalk-bot/master/screenshot/markdownmessage.png)
 
 Here is the way to build a `MarkdownMessage`:
 
@@ -87,9 +83,9 @@ Similarly,`At` is optional.
 
 ### Link Message
 
-`LinkMessage` is a kind of advanced `TextMessage` as well. It has `title`, `messageUrl`, `pictureUrl` further. Notice that the type of `text` is *plain*.
+`LinkMessage` is a kind of advanced `TextMessage` as well. It has `title`, `messageUrl`, `pictureUrl` further. Notice that the type of `text` is **plain**.
 
-![linkmessage](./screenshot/linkmessage.png)
+![linkmessage](https://raw.githubusercontent.com/MechDancer/dingtalk-bot/master/screenshot/linkmessage.png)
 
 Here is the way to build a `LinkMessage`:
 
@@ -118,8 +114,4 @@ val message = linkMessage {
 
 
 ### FeedCard Message
-
-
-
-## Contribution
 
