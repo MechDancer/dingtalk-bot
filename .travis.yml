@@ -9,7 +9,7 @@ before_install:
   - chmod a+x gradlew
 
 script:
-  - ./gradlew build
+  - ./gradlew check allJars
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -25,6 +25,12 @@ deploy:
     file_glob:    true
     file:         "build/libs/*"
     api_key:      $GitHubToken
+    on:
+      tags:       true
+      branch:     master
+  - provider:     script
+    skip_cleanup: true
+    script: ./gradlew bintrayUpload
     on:
       tags:       true
       branch:     master
